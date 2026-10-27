@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Campus Voice"
+description = "A campus complaint-tracking demo that lets students submit and follow reports while administrators review, assign, and update them. This version preserves the supplied interface and stores data only in the current browser."
+version = "1.0.0"
+id = "artifacts/campus-voice"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25088
+
+[services.development]
+run = "pnpm --filter @workspace/campus-voice run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/campus-voice", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/campus-voice/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25088"
+BASE_PATH = "/"
